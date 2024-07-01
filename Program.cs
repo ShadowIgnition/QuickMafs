@@ -1,5 +1,4 @@
-using System.Resources;
-using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace QuickMafs
 {
@@ -20,8 +19,16 @@ namespace QuickMafs
             m_Form.VisibleChanged += ToggleHideMenuItem;
 
             Application.Run();
+            SetStartup();
         }
- 
+
+        static void SetStartup()
+        {
+            //Set the application to run at startup
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(StartupKey, true);
+            key.SetValue(StartupValue, Application.ExecutablePath.ToString());
+        }
+
         static void InitializeTrayIcon()
         {
             // Create a context menu for the tray icon
@@ -36,7 +43,7 @@ namespace QuickMafs
                 Icon = MathField.GetIcon(),
                 ContextMenuStrip = m_TrayMenu,
                 Visible = true
-            }; 
+            };
 
             // Handle the click event
             m_TrayIcon.MouseClick += TrayIcon_MouseClick;
@@ -76,5 +83,9 @@ namespace QuickMafs
         static NotifyIcon? m_TrayIcon;
         static ContextMenuStrip? m_TrayMenu;
         static Form? m_Form;
+
+        // Startup registry key and value
+        static readonly string StartupKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+        static readonly string StartupValue = "QuickMafs";
     }
 }
