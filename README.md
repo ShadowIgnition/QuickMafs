@@ -1,6 +1,4 @@
 # QuickMafs
-
-## Description
 QuickMafs is a simple and convenient WinForms application designed to provide a user-friendly interface for evaluating math expressions.
 
 ## Features
